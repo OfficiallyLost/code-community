@@ -22,26 +22,19 @@
             <p class =  "header">Sign Up</p>
 
         </div>
-
-        <div class = "details-field">
-
-            <div class = "details-center">
-
-                <form onsubmit="checkFields()">
-                    <input type="text" id="username" name="username" value = "Username" class = "inputDetails">
-                    <p class = "details-err" id = "details-username-err"></p>
-                    <br><br>
-                    <input type="text" id="password" name="password" value = "Password" class = "inputDetails">
-                    <p class = "details-err" id = "details-password-err"></p>
-                    <br><br><br><br>
-
-                    <p class = "signupButton" onclick="checkFields()">Sign Up</button>
-                </form>
-
+        <div class="details-field">
+            <form action="/create" method="post">
+            <div class="details-center">
+                <input type="text" name="username" id="usrename" placeholder="Username" class="inputDetails">
+                <p class="details-err" id="details-username-err"></p>
+                <br><br>
+                <input type="password" name="Password" id="password" class="inputDetails">
+                <br><br><br><br>
+                <button class="signupBotton">Sign Up</button>
             </div>
-
+        </form>
         </div>
-
+ 
         <div class = "signUpRedirect">
 
             <a class = "noDecoLink" target = "_blank">Already have an account? Sign In.</a>
