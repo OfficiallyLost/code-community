@@ -1,0 +1,175 @@
+html
+{
+
+    height: 100%;
+
+}
+
+body
+{
+
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom, #525252 , #2A2A2A);
+
+}
+
+img.logo
+{
+
+    width: 40vh;
+    height: 40vh;
+
+}
+
+div.logo
+{
+
+    position: absolute;
+    margin: auto;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    border-radius: 4%;
+    top: 26vh;
+    left: 101vh;
+
+}
+
+div.profile-wrapper
+{
+
+    position: absolute;
+    margin: auto;
+    width: 30%;
+    height: 40%;
+    background-color: whitesmoke;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    top: 70%;
+    left: 50%;
+    border-radius: 4%;
+
+}
+
+div.header-field
+{
+
+    height: 10%;
+    border-bottom: 2px solid black;
+
+}
+
+p.header
+{
+
+    text-align: center;
+    font-weight: bold;
+    font-size: 150%;
+
+}
+
+div.details-field
+{
+
+    padding: 5%;
+    height: fit-content;
+    width: 90%;
+    margin: auto;
+
+}
+
+p.details-header
+{
+
+    font-size: 120%;
+    font-weight: bold;
+
+}
+
+div.details-center
+{
+
+    margin: auto;
+    width: fit-content;
+
+}
+
+input.inputDetails
+{
+
+    margin: auto;
+    color: black;
+    border-bottom: 1px solid #EBADEE;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    height: 20%;
+    width: fit-content;
+    font-size: 120%;
+    text-align: center;
+    background-color: whitesmoke;
+
+}
+
+input.inputDetails:focus
+{
+
+    margin: auto;
+    color: black;
+    border-bottom: 1px solid #EC00F8;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    height: 20%;
+    width: fit-content;
+    font-size: 120%;
+    text-align: center;
+    transition: 1s;
+    outline: none;
+    background-color: whitesmoke;
+
+}
+
+p.details-err
+{
+
+    color: red;
+    text-align: center;
+
+}
+
+p.signupButton
+{
+
+    padding: 3%;
+    width: fit-content;
+    background-image: linear-gradient(to right, #525252 , #2A2A2A);
+    border: none;
+    left: 50%;
+    margin: auto;
+    display: block;
+    color: white;
+
+}
+
+div.signUpRedirect
+{
+
+    width: 100%;
+    margin: auto;
+    text-align: center;
+
+}
+
+a.noDecoLink
+{
+
+    text-decoration: none;
+    color: #A0BFFF;
+
+}
