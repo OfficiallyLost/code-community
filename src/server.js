@@ -21,7 +21,8 @@ app.post('/create', async (req, res) => {
    const username = req.body.username;
    const password = req.body.password;
    const npassowrd = req.body.confirmPassword;
-   switch (true) {
+   try {
+   	switch (true) {
    	case password.length <= 7:
    	    res.render('/html/signup', { message: 'That password is not strong enough.'});
    	break;
@@ -34,13 +35,21 @@ app.post('/create', async (req, res) => {
    	case username.toLowerCase() === password.toLowerCase():
    	    res.render('/html/signup', { message: 'That password is not strong enough.'});
    	break;
+   	case password !== npassowrd:
+   	    res.render('/html/signup', { message: 'Passwords do not match.'});
+   	break;
+   	default: 
+   	const user = await userModel.create({
+   		id: Date.now().toString(),
+   		username,
+   		password: await argon2.hash(password)
+   	});
+      res.status(200).send(user);
+     }
+   } catch (e) {
+   	console.log(e);
+   	res.render('/html/signup', { message: 'An error occured, please try again.'})
    }
-   const user = await userModel.create({
-      id: Date.now().toString(),
-      username,
-      password: await argon2.hash(password)
-   });
-   res.status(200).send(user);
 });
 
 app.post('/login', async (req, res) => {
