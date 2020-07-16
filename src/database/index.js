@@ -1,2 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('');
+mongoose.connect(require('./mongo'), {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+});
