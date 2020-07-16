@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
+const argon2 = require('argon2');
 const app = express();
 const userModel = require('./database/models/user');
 const port = 5000;
@@ -17,6 +18,7 @@ app.get('/html/signup', (req, res) => {
 app.post('/create', async (req, res) => {
 	const username = req.body.username;
 	const password = req.body.password;
+	console.log(req.body);
 	if (password.length <= 7) res.render('html/signup', { message: 'Passwords must be longer than 7 characters' });
 	if (username.length <= 7) res.render('html/signup', { message: 'Your username must be longer than 7 characters' });
 	const user = await userModel.create({
