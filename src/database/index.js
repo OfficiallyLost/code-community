@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect(require('./mongo'), {
+module.exports = mongoose.connect(require('./mongo'), {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 });
