@@ -1,7 +1,8 @@
 html
 {
 
-    overflow: scroll;
+    overflow-y: scroll;
+    height: fit-content;
 
 }
 
