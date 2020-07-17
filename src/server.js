@@ -14,7 +14,11 @@ app.set('views', path.join(__dirname, 'public'));
 app.set('view engine', 'ejs');
 
 app.get('/html/signup', (req, res) => {
-   res.render('html/signup');
+   res.render('html/signup', { message: '' });
+});
+
+ap.get('/html/login', (req, res) => {
+   res.render('html/login', { message: '' });
 });
 
 app.post('/create', async (req, res) => {
