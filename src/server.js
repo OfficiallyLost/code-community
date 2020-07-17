@@ -21,30 +21,52 @@ app.post('/create', async (req, res) => {
    const username = req.body.username;
    const password = req.body.password;
    const npassowrd = req.body.confirmPassword;
-   switch (true) {
+   try {
+   	switch (true) {
    	case password.length <= 7:
-   	    res.render('/html/signup', { message: 'That password is not strong enough.'});
+   	    res.render('html/signup', { message: 'That password is not strong enough.'});
    	break;
    	case username.toLowerCase() === password.toLowerCase():
-   	    res.render('/html/signup', { message: 'That password is not strong enough.'});
+   	    res.render('html/signup', { message: 'That password is not strong enough.'});
    	break;
    	case username.toLowerCase().split(' ').some((e) => password.toLowerCase().includes(e)):
-   	    res.render('/html/signup', { message: 'That password is not strong enough.'});
+   	    res.render('html/signup', { message: 'That password is not strong enough.'});
    	break;
    	case username.toLowerCase() === password.toLowerCase():
-   	    res.render('/html/signup', { message: 'That password is not strong enough.'});
+   	    res.render('html/signup', { message: 'That password is not strong enough.'});
    	break;
+   	case password !== npassowrd:
+   	    res.render('html/signup', { message: 'Passwords do not match.'});
+   	break;
+   	default: 
+   	const user = await userModel.create({
+   		id: Date.now().toString(),
+   		username,
+   		password: await argon2.hash(password)
+   	});
+      res.status(200).send(JSON.stringify(user));
+     }
+   } catch (e) {
+   	console.log(e);
+   	res.render('html/signup', { message: 'An error occured, please try again.'})
    }
-   const user = await userModel.create({
-      id: Date.now().toString(),
-      username,
-      password: await argon2.hash(password)
-   });
-   res.status(200).send(user);
 });
 
 app.post('/login', async (req, res) => {
-
+	const username = req.body.username;
+	const password = req.body.password;
+	const user = await userModel.findOne({ username });
+	if (user === null) return res.render('/html/login', { message: 'That account does not exist.'});
+	try {
+		if (await argon2.verify(user.password, password)) {
+			res.render('home');
+		} else {
+			res.render('login', { message: 'That password does not match the accounts password.'});
+		}
+	} catch (e) {
+		console.error(e);
+		res.render('login', { message: 'An internal error occured. Please try again.'});
+	}
 });
 
 
