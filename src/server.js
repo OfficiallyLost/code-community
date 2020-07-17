@@ -17,7 +17,7 @@ app.get('/html/signup', (req, res) => {
    res.render('html/signup', { message: '' });
 });
 
-ap.get('/html/login', (req, res) => {
+app.get('/html/login', (req, res) => {
    res.render('html/login', { message: '' });
 });
 
