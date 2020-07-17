@@ -40,6 +40,9 @@ app.post('/create', async (req, res) => {
       username,
       password: await argon2.hash(password)
    });
+
+   await user.save();
+
    res.status(200).send(user);
 });
 
