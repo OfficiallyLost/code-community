@@ -21,6 +21,10 @@ app.get('/html/login', (req, res) => {
    res.render('html/login', { message: '' });
 });
 
+app.get('/html/home', (req, res) => {
+	res.render('html/home');
+})
+
 app.post('/create', async (req, res) => {
    const username = req.body.username;
    const password = req.body.password;
