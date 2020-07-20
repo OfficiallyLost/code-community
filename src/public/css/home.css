@@ -8,4 +8,77 @@ body
 {
     margin: 0;
     padding: 0;
+    overflow-y: scroll;
+}
+
+div.top-banner-wrapper
+{
+    position: relative;
+    width: 100%;
+    background-color: #2A2A2A;
+    text-align: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+div.top-banner-padding
+{
+    position: relative;
+    padding: 2%;
+    margin: auto;
+    height: 100%;
+}
+
+div.body-section-a-wrapper
+{
+    height: 700px;
+    max-height: 700px;
+    width: 100%;
+    background-color: gray;
+    text-align: center;
+}
+
+img.code-background
+{
+    height: 100%;
+    width: 100%;
+}
+
+p.body-section-a-text
+{
+    position: absolute;
+    text-align: center;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 50%;
+    margin: auto;
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+}
+
+.slide-in {
+    animation: slide-in 1.5s forwards;
+    -webkit-animation: slide-in 1.5s forwards;
+    position: absolute;
+    text-align: center;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 50%;
+    margin: auto;
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+}
+    
+@keyframes slide-in {
+    100% { transform: translateX(0%); }
+}
+
+@-webkit-keyframes slide-in {
+    100% { -webkit-transform: translateX(0%); }
 }
