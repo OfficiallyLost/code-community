@@ -13,15 +13,15 @@ app.use(express.urlencoded({ extended: false }));
 app.set('views', path.join(__dirname, 'public'));
 app.set('view engine', 'ejs');
 
-app.get('/html/signup', (req, res) => {
+app.get('/signup', (req, res) => {
    res.render('html/signup', { message: '' });
 });
 
-app.get('/html/login', (req, res) => {
+app.get('/login', (req, res) => {
    res.render('html/login', { message: '' });
 });
 
-app.get('/html/home', (req, res) => {
+app.get('/home', (req, res) => {
 	res.render('html/home');
 })
 
@@ -52,7 +52,7 @@ app.post('/create', async (req, res) => {
    		username,
    		password: await argon2.hash(password)
    	});
-      res.status(200).send(JSON.stringify(user));
+      res.redirect('/html/login');
      }
    } catch (e) {
    	console.log(e);
@@ -69,13 +69,16 @@ app.post('/login', async (req, res) => {
 		if (await argon2.verify(user.password, password)) {
 			res.render('home');
 		} else {
-			res.render('login', { message: 'That password does not match the accounts password.'});
+			res.render('html/login', { message: 'That password does not match the accounts password.'});
 		}
 	} catch (e) {
 		console.error(e);
-		res.render('login', { message: 'An internal error occured. Please try again.'});
+		res.render('html/login', { message: 'An internal error occured. Please try again.'});
 	}
 });
 
+app.get('*', (req, res) => {
+   res.render('/html/404', { message: req.path });
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
