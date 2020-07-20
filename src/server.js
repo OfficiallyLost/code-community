@@ -48,7 +48,7 @@ app.post('/create', async (req, res) => {
    		username,
    		password: await argon2.hash(password)
    	});
-      res.status(200).send(JSON.stringify(user));
+      res.redirect('/html/login');
      }
    } catch (e) {
    	console.log(e);
@@ -65,11 +65,11 @@ app.post('/login', async (req, res) => {
 		if (await argon2.verify(user.password, password)) {
 			res.render('home');
 		} else {
-			res.render('login', { message: 'That password does not match the accounts password.'});
+			res.render('html/login', { message: 'That password does not match the accounts password.'});
 		}
 	} catch (e) {
 		console.error(e);
-		res.render('login', { message: 'An internal error occured. Please try again.'});
+		res.render('html/login', { message: 'An internal error occured. Please try again.'});
 	}
 });
 
