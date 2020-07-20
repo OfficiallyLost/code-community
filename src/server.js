@@ -77,5 +77,8 @@ app.post('/login', async (req, res) => {
 	}
 });
 
+app.get('*', (req, res) => {
+   res.render('/html/404', { message: req.path });
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
