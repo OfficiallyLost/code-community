@@ -61,8 +61,8 @@ p.body-section-a-text
 }
 
 .slide-in {
-    animation: slide-in 1.5s forwards;
-    -webkit-animation: slide-in 1.5s forwards;
+    animation: slide-in 1s forwards;
+    -webkit-animation: slide-in 1s forwards;
     position: absolute;
     text-align: center;
     color: white;
