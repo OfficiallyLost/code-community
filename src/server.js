@@ -13,15 +13,15 @@ app.use(express.urlencoded({ extended: false }));
 app.set('views', path.join(__dirname, 'public'));
 app.set('view engine', 'ejs');
 
-app.get('/html/signup', (req, res) => {
+app.get('/signup', (req, res) => {
    res.render('html/signup', { message: '' });
 });
 
-app.get('/html/login', (req, res) => {
+app.get('/login', (req, res) => {
    res.render('html/login', { message: '' });
 });
 
-app.get('/html/home', (req, res) => {
+app.get('/home', (req, res) => {
 	res.render('html/home');
 })
 
