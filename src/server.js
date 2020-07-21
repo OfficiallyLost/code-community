@@ -13,6 +13,10 @@ app.use(express.urlencoded({ extended: false }));
 app.set('views', path.join(__dirname, 'public'));
 app.set('view engine', 'ejs');
 
+app.get('/', (req, res) => {
+   res.render('html/home');
+});
+
 app.get('/signup', (req, res) => {
    res.render('html/signup', { message: '' });
 });
@@ -23,7 +27,17 @@ app.get('/login', (req, res) => {
 
 app.get('/home', (req, res) => {
 	res.render('html/home');
-})
+});
+
+app.get('/users/:user', async (req, res) => {
+   const id = req.params.id;
+   const user = await userModel.findOne({ id });
+   if (user == null) {
+      res.render('html/404', { mesasge: req.path });
+   } else {
+      res.render('html/dashboard', user);
+   }
+});
 
 app.post('/create', async (req, res) => {
    const username = req.body.username;
@@ -78,7 +92,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-   res.render('/html/404', { message: req.path });
+   res.render('html/404', { message: req.path });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
