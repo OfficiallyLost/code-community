@@ -1,0 +1,73 @@
+html
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+}
+
+div.top-banner-wrapper
+{
+    position: relative;
+    width: 100%;
+    background-color: #2A2A2A;
+    text-align: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+div.top-banner-padding
+{
+    position: relative;
+    padding: 2%;
+    margin: auto;
+    height: 100%;
+}
+
+div.body-wrapper
+{
+    position: relative;
+    width: 100%;
+    height: 90%;
+    background-color: #505050;
+}
+
+div.body-wrapper-padding
+{
+    padding: 5%;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+p.label-404
+{
+    color: #232323;
+    font-size: 200px;
+    font-weight: bolder;
+    margin: 0;
+    padding: 5%;
+    text-shadow: 8px 8px 4px #272727;
+}
+
+p.subheading-404
+{
+    color: white;
+    font-size: 50px;
+    font-weight: bold;   
+    margin: 0;
+    padding: 2%;
+}
+
+p.path
+{
+    color: white;
+    font-size: 25px;
+    margin: 0;
+}
