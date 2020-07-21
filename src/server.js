@@ -66,7 +66,7 @@ app.post('/create', async (req, res) => {
    		username,
    		password: await argon2.hash(password)
    	});
-      res.redirect('/html/login');
+      res.redirect('/login');
      }
    } catch (e) {
    	console.log(e);
