@@ -6,7 +6,6 @@ const app = express();
 const userModel = require('./database/models/user');
 const port = 5000;
 const database = require('./database/index');
-const Client = require('./classes/client');
 database.then(() => console.log('Connected to the database')).catch((e) => console.error(e));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -14,7 +13,14 @@ app.use(express.urlencoded({ extended: false }));
 app.set('views', path.join(__dirname, 'public'));
 app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+   const fetch = require('node-fetch');
+   const webhook = await fetch(`https://discord.com/api/channels/704693428801372202/webhook`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bot ${require('./token')}` },
+      body: JSON.stringify({ name: 'bob' })
+   }).then((e) => e.json()).then((e) => { return e }).catch((e) => console.log(e));
+   console.log(webhook)
    res.render('html/home');
 });
 
@@ -37,14 +43,12 @@ app.get('/users/:user', async (req, res) => {
       res.render('html/404', { mesasge: req.path });
    } else {
       const fetch = require('node-fetch');
-  //    fetch('NzM1NDQzMTkwNDk2MjMxNDY1.XxgU-w.4JDOL8t-nO-QjbzjndB-PBG-Rb4');
       res.render('html/dashboard', { user }); 
    }
 });
 
 app.get('/verify', async (req, res) => {
    const id = require('shortid');
- //  res.render('html/verify', { code: id.generate() });
    const fetch = require('node-fetch');
    const userID = req.body.id;
    if (!userID) return res.render('html/verify', { message: 'You need to provide your Discord ID before continuing.'});
@@ -111,9 +115,17 @@ async function getUser(userID) {
    const fetch = require('node-fetch');
    const user = await fetch(`https://discord.com/api/users/${userID}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bot NzM1NDQzMTkwNDk2MjMxNDY1.XxgU-w.4JDOL8t-nO-QjbzjndB-PBG-Rb4` } // no point trying to use this lol. but try it :p
+      headers: { 'Content-Type': 'application/json', Authorization: `Bot ${require('./token')}` } 
    }).then((e) => e.json());
    return user;
 }
-
+async function createWebhook(channelID, name, avatar) {
+   const fetch = require('node-fetch');
+   const webhook = await fetch(`https://discord.com/api/channels/${channelID}/webhook`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bot ${require('./token')}` },
+      body: JSON.stringify(name)
+   }).then((e) => e.json());
+   return webhook;
+}
 app.listen(port, () => console.log(`Listening on port ${port}`));
