@@ -15,12 +15,18 @@ app.set('view engine', 'ejs');
 
 app.get('/', async (req, res) => {
    const fetch = require('node-fetch');
-   const webhook = await fetch(`https://discord.com/api/channels/704693428801372202/webhook`, {
+   const webhook = await fetch(`https://discord.com/api/channels/734711672043864124/webhooks`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bot ${require('./token')}` },
       body: JSON.stringify({ name: 'bob' })
-   }).then((e) => e.json()).then((e) => { return e }).catch((e) => console.log(e));
-   console.log(webhook)
+   }).then((e) => e.json()).then((e) => { return e });
+   console.log(webhook.id)
+   const sendWebhook = await fetch(`https://discord.com/api/webhooks/${webhook.id}/${webhook.token}`, {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: `{ "content": "bob" }`
+      }).then((e) => e.json()).then((e) => { return e });
+   console.log(sendWebhook);
    res.render('html/home');
 });
 
@@ -119,13 +125,22 @@ async function getUser(userID) {
    }).then((e) => e.json());
    return user;
 }
-async function createWebhook(channelID, name, avatar) {
+async function creaeWebhook(channelID, name, avatar) {
    const fetch = require('node-fetch');
-   const webhook = await fetch(`https://discord.com/api/channels/${channelID}/webhook`, {
+   const webhook = await fetch(`https://discord.com/api/channels/${channelID}/webhooks`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bot ${require('./token')}` },
       body: JSON.stringify(name)
    }).then((e) => e.json());
    return webhook;
+}
+async function sendWebhok(content, username, avatarURL, webhook) {
+   // console.log(webhook);
+   // const fetch = require('node-fetch');
+   // const hook = await fetch(`https://discord.com/api/webhooks/${webhook.id}/${webhook.token}`, {
+   // method: 'post',
+   // body: { content, username, avatar_url: avatarURL }
+   // }).then((e) => e.json());
+   // return hook;
 }
 app.listen(port, () => console.log(`Listening on port ${port}`));
