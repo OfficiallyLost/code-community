@@ -36,6 +36,10 @@ app.get('/home', (req, res) => {
 	res.render('html/home');
 });
 
+app.get('/dashboard', (req, res) => {
+	res.render('html/dashboard');
+});
+
 app.get('/users/:user', async (req, res) => {
    const id = req.params.id;
    const user = await userModel.findOne({ id });
