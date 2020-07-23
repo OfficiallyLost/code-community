@@ -42,6 +42,15 @@ app.get('/home', (req, res) => {
 	res.render('html/home');
 });
 
+app.get('/dashboard', (req, res) => {
+	res.render('html/dashboard', { 
+      avatar: "https://cdn.discordapp.com/avatars/382368885267234816/889b05352086ceb67fbc85ae44fd37e4.png?size=512",
+      username: "Some username", 
+      userID: "Some discord user ID",
+      about: "Some user about"
+   });
+});
+
 app.get('/users/:user', async (req, res) => {
    const id = req.params.id;
    const user = await userModel.findOne({ id });

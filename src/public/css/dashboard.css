@@ -1,0 +1,100 @@
+html
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+    max-width: 100%;
+    background-color: #2A2A2A;
+}
+
+div.top-banner-wrapper
+{
+    position: relative;
+    width: 100%;
+    background-color: #2A2A2A;
+    text-align: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+div.top-banner-padding
+{
+    position: relative;
+    padding: 2%;
+    margin: auto;
+    height: 100%;
+}
+
+div.body-wrapper
+{
+    position: relative;
+    width: 100%;
+}
+
+div.body-padding
+{
+    padding: 10px;
+    background-color: #505050;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+p.username
+{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+img.avatar
+{
+    height: 200px;
+    max-height: 200px;
+    width: 200px;
+    max-width: 200px;
+    background-color: #272727;
+    border-radius: 50%;
+}
+
+p.account-desc-header
+{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+p.account-desc-content
+{
+    font-size: 20px;
+}
+
+div.footer-wrapper
+{
+    position: relative;
+    width: 100%;
+    height: 30%;
+    background-color: #272727;
+}
+
+div.footer-wrapper-padding
+{
+    padding: 2%;
+    text-align: center;
+}
+
+a.footer-redirects
+{
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 120%;
+    color: white;
+    padding: 10px 80px;
+    text-decoration: none;
+}

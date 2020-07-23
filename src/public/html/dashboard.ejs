@@ -1,1 +1,61 @@
-'' 
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src = "../js/dashboard.js"></script>
+    <link rel="stylesheet" href="../css/dashboard.css">
+
+</head>
+
+<body>
+    
+    <div class = "top-banner-wrapper">
+
+        <div class = "top-banner-padding">
+
+            Code Community
+
+        </div>
+
+    </div>
+
+    <div class = "body-wrapper">
+
+        <div class = "body-padding">
+
+            <p class = "username"><%- username %></p>
+            <img src = "<%- avatar %>" class = "avatar">
+            <br><br>
+            <p class = "account-desc-header">Account Username</p>
+            <p class = "account-desc-content"><%- username %></p>
+            <p class = "account-desc-header">Discord User ID</p>
+            <p class = "account-desc-content"><%- userID %></p>
+            <p class = "account-desc-header">About (some username here)</p>
+            <p class = "account-desc-content"><%- about %></p>
+
+        </div>
+
+    </div>
+
+    <div class = "footer-wrapper">
+
+        <div class =  "footer-wrapper-padding">
+
+            <a class = "footer-redirects" href = "https://discord.com/invite/hvYP56K" target = "_blank">Discord</a>
+            <a class = "footer-redirects" href = "https://github.com/gavintjhxx/code-community" target = "_blank">GitHub</a>
+            <a class = "footer-redirects" href = "https://codecommunity.cloud.libraryofcode.org/home">Home</a>
+            <a class = "footer-redirects" href = "https://codecommunity.cloud.libraryofcode.org/signup">Sign Up</a>
+            <a class = "footer-redirects" href = "https://codecommunity.cloud.libraryofcode.org/login">Login</a>
+
+        </div>
+
+    </div>
+    
+</body>
+
+</html>
