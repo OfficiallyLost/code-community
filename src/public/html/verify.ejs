@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify</title>
+    <link rel="stylesheet" href="../css/signup.css">
+    <script src="../js/signup.js"></script>
+
+</head>
+
+<body>
+    
+    <div class = "top-banner">
+
+        <div class = "top-banner-header">Code Community</div>
+
+    </div>
+
+    <div class = "main-wrapper-grids">
+
+        <div class = "main-grid-items">
+
+            <div class = "main-form">
+
+                <form action="/users/<%- id %>" method="POST">
+
+                    <p class="form-title">Verify your account</p>
+                    <br><br><br>
+                    <label for="code" class="form-label">Please enter your Discord ID.</label><br><br>
+                    <input type="text" name="discordID" style="width: 300px;"><br><br>
+                    <input type="submit" class="form-submit-button" value="Verify">
+                    <br><br>
+                    <p>To verify your account, DM Modmail <code><%- code %></code>.</p>
+                    <p class="form-error-message"><%- message %></p>
+                    <br><br><br><br>
+                    <p style="font-weight: bold">Need help? Click <a href="/discord" style="text-decoration: none !important">Here</a></p>
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class = "main-grid-items">
+
+            <img class = "main-logo-wrapper" src = "../images/code background.png">
+            <p class = "logo-overlay-text">We aim to help developers solve their issues without judgements.</p>
+    
+        </div>
+
+    </div>
+
+    <div class = "footer-wrapper">
+
+        <div class =  "footer-wrapper-padding">
+
+            <a class = "footer-redirects" href = "https://discord.com/invite/hvYP56K" target = "_blank">Discord</a>
+            <a class = "footer-redirects" href = "https://github.com/gavintjhxx/code-community" target = "_blank">GitHub</a>
+            <a class = "footer-redirects" href = "https://codecommunity.cloud.libraryofcode.org/home">Home</a>
+            <a class = "footer-redirects" href = "https://codecommunity.cloud.libraryofcode.org/login">Login</a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
