@@ -5,7 +5,7 @@ const argon2 = require('argon2');
 const app = express();
 const userModel = require('./database/models/user');
 const port = 5000;
-const id = require("shortid");
+const id = require('shortid');
 const database = require('./database/index');
 database.then(() => console.log('Connected to the database')).catch((e) => console.error(e));
 
@@ -16,8 +16,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', async (req, res) => {
    const webhook = await createWebhook('734711672043864124', 'bollllb')
-   await sendWebhok('hi', 'hi', 'hi', webhook);
-   console.log(createWebhook);
+   await sendWebhook('hi', 'hi', 'hi', webhook);
    res.render('html/home');
 });
 
@@ -53,8 +52,8 @@ app.get('/verify/:user', async (req, res) => {
    console.log(user);
    res.render('html/verify', { message: '', code: '', id: user.id });
 });
-app.post('/users/:user', async (req, res) => {
 
+app.post('/users/:user', async (req, res) => {
    const userID = req.body.discordID;
    const userP = await userModel.findOne({ id: req.params.user });
    if (userP === null) return res.render('html/404', { message: req.path });
@@ -72,7 +71,6 @@ app.post('/users/:user', async (req, res) => {
 
       const webhook = await createWebhook('735455517509681195', userP.username, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`);
       await sendWebhook(`**ID:** \`${userP.id}\` | **Discord ID:** \`${user.id}\` | **Code:** \`${code}\``, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`, webhook);
-
 });
 
 app.post('/create', async (req, res) => {
@@ -102,7 +100,7 @@ app.post('/create', async (req, res) => {
    		username,
    		password: await argon2.hash(password)
    	});
-      res.redirect(`/verify/${user.id}`);
+      return res.redirect(`/verify/${user.id}`);
      }
    } catch (e) {
    	console.log(e);
@@ -139,6 +137,7 @@ async function getUser(userID) {
    }).then((e) => e.json());
    return user;
 }
+
 async function createWebhook(channelID, name, avatar) {
    const fetch = require('node-fetch');
    const webhook = await fetch(`https://discord.com/api/channels/${channelID}/webhooks`, {
@@ -148,6 +147,7 @@ async function createWebhook(channelID, name, avatar) {
    }).then((e) => e.json());
    return webhook;
 }
+
 async function sendWebhook(content, avatarURL, webhook) {
    const fetch = require('node-fetch');
 const hook = await fetch(`https://discord.com/api/webhooks/${webhook.id}/${webhook.token}`, {
