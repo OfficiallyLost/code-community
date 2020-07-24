@@ -5,7 +5,7 @@ const argon2 = require('argon2');
 const app = express();
 const userModel = require('./database/models/user');
 const port = 5000;
-const id = require('shortid');
+const id = require("shortid");
 const database = require('./database/index');
 database.then(() => console.log('Connected to the database')).catch((e) => console.error(e));
 
