@@ -5,6 +5,7 @@ module.exports = mongoose.model(
 	new mongoose.Schema({
 		id: String,
 		username: String,
-		password: String
+		password: String,
+		discordID: String,
 	})
 );
