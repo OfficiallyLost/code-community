@@ -16,8 +16,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', async (req, res) => {
    const webhook = await createWebhook('734711672043864124', 'bollllb')
-   await sendWebhok('hi', 'hi', 'hi', webhook);
-   console.log(createWebhook);
+   await sendWebhook('hi', 'hi', 'hi', webhook);
    res.render('html/home');
 });
 
@@ -101,7 +100,7 @@ app.post('/create', async (req, res) => {
    		username,
    		password: await argon2.hash(password)
    	});
-      res.redirect(`/verify/${user.id}`);
+      return res.redirect(`/verify/${user.id}`);
      }
    } catch (e) {
    	console.log(e);
