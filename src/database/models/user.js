@@ -7,6 +7,5 @@ module.exports = mongoose.model(
 		username: String,
 		password: String,
 		discordID: String,
-		verified: Boolean
 	})
 );
