@@ -7,6 +7,17 @@ const userModel = require('./database/models/user');
 const port = 5000;
 const id = require('shortid');
 const database = require('./database/index');
+const limit = require('express-rate-limit');
+const limiter = limit({
+  windowMs: 1000, 
+  max: 3, 
+  message: `Please try again later. continuing to do so, will get your IP banned from accessing the site.`
+});
+const norm = limit({
+   windowMs: 1000,
+   max: 2
+});
+
 database.then(() => console.log('Connected to the database')).catch((e) => console.error(e));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -14,66 +25,71 @@ app.use(express.urlencoded({ extended: false }));
 app.set('views', path.join(__dirname, 'public'));
 app.set('view engine', 'ejs');
 
-app.get('/', async (req, res) => {
-   const webhook = await createWebhook('734711672043864124', 'bollllb')
-   await sendWebhook('hi', 'hi', 'hi', webhook);
+app.get('/', norm, async (req, res) => {
    res.render('html/home');
 });
 
-app.get('/signup', (req, res) => {
+app.get('/signup', norm,  (req, res) => {
    res.render('html/signup', { message: '' });
 });
 
-app.get('/login', (req, res) => {
+app.get('/login', norm, (req, res) => {
    res.render('html/login', { message: '' });
 });
 
-app.get('/home', (req, res) => {
+app.get('/home', norm, (req, res) => {
 	res.render('html/home');
 });
 
-app.get('/users/:user', async (req, res) => {
-   const id = req.params.id;
+app.get('/users/:user', norm, async (req, res) => {
+   const id = req.params.user;
    const user = await userModel.findOne({ id });
+
    if (user == null) {
       res.render('html/404', { message: req.path });
+   } else if (!user.verified) {
+      res.redirect(`/verify/${user.id}`)
    } else {
-      // res.render('html/dashboard', { 
-      //    avatar: '',
-      //    username: 'bob 123',
-      //    about: 'bob 123',
-      //    id: user.id
-      // }); 
+      const discord = await getUser(user.discordID);
+      res.render('html/dashboard', {
+         username: user.username,
+         avatar: `https://cdn.discordapp.com/avatars/${discord.id}/${discord.avatar}.png`,
+         id: user.id,
+         userID: discord.id,
+         about: user.about ? user.about : 'You do not have an about.'
+      });
    }
 });
-app.get('/verify/:user', async (req, res) => {
+
+app.get('/verify/:user', norm, async (req, res) => {
    const user = await userModel.findOne({ id: req.params.user });
    if (user == null) return res.render('html/404', { message: req.path });
-   console.log(user);
-   res.render('html/verify', { message: '', code: '', id: user.id });
+   if (user.verified) return res.render('html/404', { message: req.path });
+    res.render('html/verify', { message: '', code: '', id: user.id });
 });
 
-app.post('/users/:user', async (req, res) => {
+app.post('/users/:user', limiter, async (req, res) => {
    const userID = req.body.discordID;
    const userP = await userModel.findOne({ id: req.params.user });
    if (userP === null) return res.render('html/404', { message: req.path });
    if (!userID) return res.render('html/verify', { message: 'You need to provide your Discord ID before continuing. ', id: userP.id });
    const user = await getUser(userID);
    if (!user) return res.render('html/verify', { message: 'You need to provide your Discord ID before continuing.' });
-   userP.updateOne({ discordID: user.id });
       if (!('code' in user)) {
-        console.log('user exists')
+         const code = await id.generate();
+         res.render('html/verify', { message: '', code, id: userP.id });
+         const webhook = await createWebhook('735455517509681195', userP.username, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`);
+         await sendWebhook(`**ID:** \`${userP.id}\` | **Discord ID:** \`${user.id}\` | **Code:** \`${code}\``, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`, webhook);
+         setTimeout(async() => {
+            await deleteWebhook(webhook.id);
+            console.log('done');
+         }, 10000);
       } else {
-         console.log('user no exist');
+         res.render('html/verify', { message: 'You meed to provide a valid ID.', code: '', id: userP.id });
       }
-      const code = await id.generate();
-      res.render('html/verify', { message: '', code, id: userP.id });
-
-      const webhook = await createWebhook('735455517509681195', userP.username, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`);
-      await sendWebhook(`**ID:** \`${userP.id}\` | **Discord ID:** \`${user.id}\` | **Code:** \`${code}\``, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`, webhook);
 });
 
-app.post('/create', async (req, res) => {
+app.post('/create', limiter, async (req, res) => {
    const username = req.body.username;
    const password = req.body.password;
    const npassowrd = req.body.confirmPassword;
@@ -94,6 +110,13 @@ app.post('/create', async (req, res) => {
    	case password !== npassowrd:
    	    res.render('html/signup', { message: 'Passwords do not match.'});
    	break;
+      case username.includes(' '):
+          res.render('html/signup', { message: 'You cannot have spaces in your username '});
+      break;
+      case password.includes(' '):
+          res.render('html/signup', { message: 'You cannot have spaces in your password '});
+      break;
+
    	default: 
    	const user = await userModel.create({
    		id: Date.now().toString(),
@@ -108,7 +131,7 @@ app.post('/create', async (req, res) => {
    }
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login', limiter, async (req, res) => {
 	const username = req.body.username;
 	const password = req.body.password;
 	const user = await userModel.findOne({ username });
@@ -125,7 +148,7 @@ app.post('/login', async (req, res) => {
 	}
 });
 
-app.get('*', (req, res) => {
+app.get('*', norm, (req, res) => {
    res.render('html/404', { message: req.path });
 });
 
@@ -137,25 +160,32 @@ async function getUser(userID) {
    }).then((e) => e.json());
    return user;
 }
-
 async function createWebhook(channelID, name, avatar) {
    const fetch = require('node-fetch');
    const webhook = await fetch(`https://discord.com/api/channels/${channelID}/webhooks`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bot ${require('./token')}` },
       body: `{ "name": "${name}" }`
-   }).then((e) => e.json());
-   return webhook;
+   });
+   return await webhook.json();
+}
+async function deleteWebhook(webhookID) {
+   const fetch = require('node-fetch');
+   const deleteHook = await fetch(`https://discord.com/api/webhooks/${webhookID}`,{
+      method: 'delete',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bot ${require('./token')}` }
+   });
+   return await deleteHook.text();
 }
 
 async function sendWebhook(content, avatarURL, webhook) {
    const fetch = require('node-fetch');
-const hook = await fetch(`https://discord.com/api/webhooks/${webhook.id}/${webhook.token}`, {
+   const hook = await fetch(`https://discord.com/api/webhooks/${webhook.id}/${webhook.token}`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: `{ "content": "${content}", "username": "${webhook.name}", "avatar_url": "${avatarURL}" }`
-      }).then((e) => e.json());
-return hook;
+      });
+   return await hook.text();
 }
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => console.log(`Listening on port ${port}`)); 
