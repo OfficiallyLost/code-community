@@ -47,7 +47,7 @@ app.get('/users/:user', norm, async (req, res) => {
 
    if (user == null) {
       res.render('html/404', { message: req.path });
-   } else if (!user.verified) {
+   } else if (user.verified) {
       res.redirect(`/verify/${user.id}`)
    } else {
       const discord = await getUser(user.discordID);
@@ -75,7 +75,7 @@ app.post('/users/:user', limiter, async (req, res) => {
    if (!userID) return res.render('html/verify', { message: 'You need to provide your Discord ID before continuing. ', id: userP.id });
    const user = await getUser(userID);
    if (!user) return res.render('html/verify', { message: 'You need to provide your Discord ID before continuing.' });
-      if (!('code' in user)) {
+      if (('code' in user)) {
          const code = await id.generate();
          res.render('html/verify', { message: '', code, id: userP.id });
          const webhook = await createWebhook('735455517509681195', userP.username, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`);
@@ -114,7 +114,7 @@ app.post('/create', limiter, async (req, res) => {
           res.render('html/signup', { message: 'You cannot have spaces in your username '});
       break;
       case password.includes(' '):
-          res.render('html/signup', { message: 'You cannot have spaces in your password '});
+          res.render('html/signup', { message: 'You cannot have spaces in your password', username });
       break;
 
    	default: 
@@ -185,7 +185,7 @@ async function sendWebhook(content, avatarURL, webhook) {
       headers: { 'Content-Type': 'application/json' },
       body: `{ "content": "${content}", "username": "${webhook.name}", "avatar_url": "${avatarURL}" }`
       });
-   return await hook.text();
+   return await hook.json();
 }
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); 
